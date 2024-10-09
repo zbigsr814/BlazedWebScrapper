@@ -1,0 +1,74 @@
+﻿@page "/loty"
+@using BlazedWebScrapper.Data
+@using BlazedWebScrapper.Entities
+@inject FlightService FlightService
+
+<PageTitle>Loty</PageTitle>
+
+@* <p>Wpisz swój email, a wyślemy na niego najkorzystniejsze oferty lotów: @result</p>
+<!-- Pole tekstowe, gdzie użytkownik wprowadza tekst -->
+<input @bind="inputText" placeholder="Wpisz e-mail" />
+
+<!-- Przycisk, który wywołuje metodę przesyłania danych -->
+<button @onclick="SubmitData">Prześlij</button>
+
+<!-- Wyświetlenie przesłanego tekstu --> *@
+
+
+
+@if (flights == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>StartDestination</th>
+                <th>EndDestination</th>
+                <th>StartTripDeparture</th>
+                <th>StartTripArrival</th>
+                <th>EndTripDeparture</th>
+                <th>EndTripArrival</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var flight in flights)
+            {
+                <tr>
+                    <td>@flight.StartDestination</td>
+                    <td>@flight.EndDestination</td>
+                    <td>@flight.StartTripDeparture</td>
+                    <td>@flight.StartTripArrival</td>
+                    <td>@flight.EndTripDeparture</td>
+                    <td>@flight.EndTripArrival</td>
+                    <td>@flight.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<FlightModel> flights;
+
+    protected override void OnInitialized()
+    {
+        flights = FlightService.GetFlights();
+    }
+
+    // // Zmienna, która przechowuje wprowadzony tekst
+    // private string inputText = string.Empty;
+
+    // // Zmienna do wyświetlenia przesłanego tekstu
+    // private string result;
+
+    // // Metoda do przetwarzania danych
+    // private void SubmitData()
+    // {
+    //     // Tutaj możesz przesłać tekst dalej do logiki, np. do serwisu lub API
+    //     result = inputText;
+    // }
+}
